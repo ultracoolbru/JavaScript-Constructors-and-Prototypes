@@ -87,6 +87,60 @@ Country.prototype.callParentMethod = function () {
     this.render();
 }
 
+const course = {
+    title: 'JavaScript - The Complete Guide 2020 (Beginner + Advanced)',
+    rating: 5
+};
+
+
+// Get the prototype of the course object.
+const getCourse = Object.getPrototypeOf(course);
+const getCourseRootElement = document.createElement('div');
+getCourseRootElement.innerHTML = `<p>${getCourse}</p>`;
+document.getElementById('app').append(getCourseRootElement);
+console.log(getCourse);
+
+// Set the prototype of the course object.
+Object.setPrototypeOf(course, {
+    ...Object.getPrototypeOf(course),
+    printRating() {
+        const rootElement = document.createElement('div');
+        rootElement.innerHTML = `<p>${this.rating}/5</p>`;
+        document.getElementById('app').append(rootElement);
+
+        console.log(`${this.rating}/5`);
+    }
+});
+
+// Add a new property/function to the course object.
+course.printTitle = function () {
+    const rootElement = document.createElement('div');
+    rootElement.innerHTML = `<p>${this.title}</p>`;
+    document.getElementById('app').append(rootElement);
+
+    console.log(`${this.title}`);
+}
+
+course.printRating();
+course.printTitle();
+
+// Create a new object student.
+const student = Object.create({ printProgress: () => { console.log('In Progress'); } }, {
+    name: {
+        configurable: true,
+        enumerable: true,
+        value: 'Edward',
+        writable: true
+        }
+    });
+student.printProgress();
+
+const getStudentNameRootElement = document.createElement('div');
+getStudentNameRootElement.innerHTML = `<p>${student.name}</p>`;
+document.getElementById('app').append(getStudentNameRootElement);
+
+console.log(student.name);
+
 // const country = new Country('South Africa');
 // const country2 = country.__proto__.constructor('England');
 // console.log(country2);
@@ -109,7 +163,7 @@ function Init() {
 
     const country = new Country('South Africa');
     country.render();
-    
+
     country.prototypeTest(country.__proto__ === Country.prototype);
     country.callParentMethod();
 }
